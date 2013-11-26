@@ -1,0 +1,67 @@
+﻿@model DropzoneDemo.Models.Cuenta
+@{
+    ViewBag.Title = "Index";
+}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Dropzone demo</title>
+    <link href="~/Scripts/dropzone/css/dropzone.css" rel="stylesheet" />
+
+</head>
+<body>
+    <h2>Index from the View</h2>
+
+    @using (Html.BeginForm("CargarArchivo", "Home", FormMethod.Post, new { @class = "dropzone", @id = "my-images-upload" }))
+    {
+        <div class="old">
+
+            <div>
+                <p>Nombre : @Html.EditorFor(model => model.Nombre)</p>
+                <p>Apellidos: @Html.EditorFor(model => model.Apellidos)</p>
+            </div>
+            <p>
+                <input type="submit" value="enviar" id="guardar" name="guardar" />
+            </p>
+        </div>
+
+    }
+
+
+
+    <script src="~/Scripts/jquery-2.0.3.js"></script>
+    <script src="~/Scripts/dropzone/dropzone.js"></script>
+
+    <script>
+
+            Dropzone.options.myImagesUpload = {
+                // Prevents Dropzone from uploading dropped files immediately
+                paramName: "file",
+                autoProcessQueue: false,
+                maxFileSize: 25, // MB
+                maxFiles: 100, //for now upload one at a time
+                uploadMultiple: true,
+                addRemoveLinks: true,
+                init: function () {
+                    var form = document.querySelector("#my-images-upload");
+                    myDropzone = this; // closure
+
+                    form.addEventListener("submit", function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        myDropzone.processQueue(); // Tell Dropzone to process all queued files.
+                    });
+
+                    // You might want to show the submit button only when 
+                    // files are dropped here:
+                    this.on("addedfile", function () {
+                        // Show submit button here and/or inform user to click it.
+                    });
+                }
+            }
+    </script>
+
+</body>
+</html>
+
+
+
