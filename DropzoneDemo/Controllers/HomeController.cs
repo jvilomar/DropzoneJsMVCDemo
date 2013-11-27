@@ -17,9 +17,25 @@ namespace DropzoneDemo.Controllers
             return View();
         }
 
-        public ActionResult CargarArchivo(Cuenta cuenta, IEnumerable<HttpPostedFileBase> file)
+        [HttpPost]
+        public ActionResult UploadFile(HttpPostedFileBase file)
         {
-            string nombreArchivo = file.FirstOrDefault().FileName;
+            try
+            {
+                var filePath = Server.MapPath("~/Uploads" + file.FileName);
+                file.SaveAs(filePath);
+                return Json(new { uploadPath = filePath });
+            }
+            catch (Exception exception)
+            {
+                Response.StatusCode = 501;
+                return Json(new {Success = false});
+            }
+        }
+
+        public ActionResult CargarArchivo(Cuenta cuenta)
+        {
+            string nombresArchivo = cuenta.UploadedFiles;
             string Nombres = cuenta.Nombre;
             string Apellidos = cuenta.Apellidos;
 

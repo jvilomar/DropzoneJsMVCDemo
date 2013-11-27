@@ -9,5 +9,6 @@ namespace DropzoneDemo.Models
     {
         public String Nombre { get; set; }
         public String Apellidos { get; set; }
+        public string UploadedFiles { get; set; }
     }
 }

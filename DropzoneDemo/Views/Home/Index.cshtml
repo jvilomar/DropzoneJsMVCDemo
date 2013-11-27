@@ -11,7 +11,7 @@
 <body>
     <h2>Index from the View</h2>
 
-    @using (Html.BeginForm("CargarArchivo", "Home", FormMethod.Post, new { @class = "dropzone", @id = "my-images-upload" }))
+    @using (Html.BeginForm("UploadFile", "Home", FormMethod.Post, new { @class = "dropzone", @id = "my-images-upload" }))
     {
         <div class="old">
 
@@ -36,10 +36,10 @@
             Dropzone.options.myImagesUpload = {
                 // Prevents Dropzone from uploading dropped files immediately
                 paramName: "file",
-                autoProcessQueue: false,
+                
                 maxFileSize: 25, // MB
                 maxFiles: 100, //for now upload one at a time
-                uploadMultiple: true,
+                uploadMultiple: false,
                 addRemoveLinks: true,
                 init: function () {
                     var form = document.querySelector("#my-images-upload");
