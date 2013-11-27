@@ -1,0 +1,36 @@
+﻿@model DropzoneDemo.Models.Cuenta
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Dropzone demo</title>
+
+</head>
+<body>
+    <h2>Account created</h2>
+
+    <p>Name: @Model.Nombre @Model.Apellidos</p>
+
+    <p>Files: </p>
+    
+    <ul>
+        @if (!string.IsNullOrEmpty(Model.UploadedFiles))
+        {
+
+            var files = Model.UploadedFiles.Remove(0, 1).Split(';').ToArray();
+
+
+            foreach (var file in files)
+            {
+                <li>@file</li>
+            }
+        }
+        else
+        {
+            <li>No files were uploaded.</li>
+        }
+    </ul>
+</body>
+</html>
+
+
+

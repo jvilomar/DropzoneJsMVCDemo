@@ -11,13 +11,14 @@
 <body>
     <h2>Index from the View</h2>
 
-    @using (Html.BeginForm("UploadFile", "Home", FormMethod.Post, new { @class = "dropzone", @id = "my-images-upload" }))
+    @using (Html.BeginForm("CreateAccount", "Home", FormMethod.Post, new { @class = "dropzone", @id = "my-images-upload" }))
     {
         <div class="old">
 
             <div>
                 <p>Nombre : @Html.EditorFor(model => model.Nombre)</p>
                 <p>Apellidos: @Html.EditorFor(model => model.Apellidos)</p>
+                @Html.Hidden("UploadedFiles")
             </div>
             <p>
                 <input type="submit" value="enviar" id="guardar" name="guardar" />
@@ -35,6 +36,7 @@
 
             Dropzone.options.myImagesUpload = {
                 // Prevents Dropzone from uploading dropped files immediately
+                url: "@Url.Action("UploadFile")",
                 paramName: "file",
                 
                 maxFileSize: 25, // MB
@@ -44,17 +46,18 @@
                 init: function () {
                     var form = document.querySelector("#my-images-upload");
                     myDropzone = this; // closure
-
-                    form.addEventListener("submit", function (e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        myDropzone.processQueue(); // Tell Dropzone to process all queued files.
-                    });
-
+                    
                     // You might want to show the submit button only when 
                     // files are dropped here:
                     this.on("addedfile", function () {
                         // Show submit button here and/or inform user to click it.
+                    });
+                    
+                    this.on("success", function (file, responseText) {
+                        var uploadedFiles = document.getElementById('UploadedFiles');
+
+                        uploadedFiles.value = uploadedFiles.value + ";" + responseText.uploadPath;
+
                     });
                 }
             }

@@ -22,7 +22,7 @@ namespace DropzoneDemo.Controllers
         {
             try
             {
-                var filePath = Server.MapPath("~/Uploads" + file.FileName);
+                var filePath = Server.MapPath("~/Uploads/" + file.FileName);
                 file.SaveAs(filePath);
                 return Json(new { uploadPath = filePath });
             }
@@ -33,13 +33,13 @@ namespace DropzoneDemo.Controllers
             }
         }
 
-        public ActionResult CargarArchivo(Cuenta cuenta)
+        public ActionResult CreateAccount(Cuenta cuenta)
         {
             string nombresArchivo = cuenta.UploadedFiles;
             string Nombres = cuenta.Nombre;
             string Apellidos = cuenta.Apellidos;
 
-            return RedirectToAction("Index");
+            return View("CreateAccount", cuenta);
         }
 
     }
